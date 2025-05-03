@@ -8,9 +8,12 @@ dotenv.config();
 db.connect();
 
 const app = express();
+
 app.use(express.json());
 
 app.use("/users", userRoutes);
+app.use("/secureExampleRoute", exampleRoute);
+
 app.get('/', (req, res) => {
     res.send({message: 'Hello World!'});
 });
