@@ -1,13 +1,3 @@
-#!/bin/bash
-
-# Cenário: Tentativa de acesso a /secureExampleRoute com token JWT inválido
-
-TOKEN_INVALIDO="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5cINVALIDPARTHERE"
-
-echo "Tentando acessar /secureExampleRoute com um token JWT INVÁLIDO..."
-
-curl -X GET \
-  -H "Authorization: Bearer $TOKEN_INVALIDO" \
-  http://localhost:3000/secureExampleRoute
-
-echo "\n"
+curl --request GET \
+  --url http://localhost:3000/secureExampleRoute \
+  --header 'Authorization: Bearer eyJhbOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjBhYjViZjAyYzI0NzUwODFhMDcxZiIsImVtYWlsIjoic2V1ZW1haTJsQGV4YW1wbGUuY29tIiwibm9tZSI6IlNldSBOb21lMiIsImlhdCI6MTc0Njk3MjE3NywiZXhwIjoxNzQ2OTc1Nzc3fQ.iIYhGS7T5mKUy62BtoWun0UjZJffr3lc2GVpVEBJZKw'
