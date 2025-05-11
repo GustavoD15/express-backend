@@ -1,7 +1,9 @@
-## Register - Email inválido (sem @)
-
-curl -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"nome":"Usuário Teste","email":"usuario.teste.com","password":"senhaForte123"}' \
-  http://localhost:3000/api/auth/register
-
+curl --request POST \
+  --url http://localhost:3000/api/auth/register \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "nome": "Seu Nome",
+    "email": "seuemail.example.com",
+    "password": "suaSenhaSuperForte123"
+}
+'

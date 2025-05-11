@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-const JWT_SECRET = process.env.JWT_SECRET;
+// const JWT_SECRET = process.env.JWT_SECRET; // Moved to be read inside functions
 const SALT_ROUNDS = 10;
 
 export const authService = {
@@ -28,13 +28,17 @@ export const authService = {
             const savedUser = await newUser.save();
             console.log("[AuthService] User registered successfully:", savedUser.email);
             
-            // Return user data without password
             const userToReturn = { ...savedUser._doc };
             delete userToReturn.password;
             return userToReturn;
 
         } catch (error) {
             console.error("[AuthService] Error during user registration:", error.message || error);
+            if (error.name === 'ValidationError') {
+                // Construct a more detailed error message from Mongoose validation errors
+                const messages = Object.values(error.errors).map(val => val.message);
+                throw { statusCode: 400, message: `Erro de validação: ${messages.join(', ')}` };
+            }
             if (error.statusCode) throw error; // Rethrow custom errors
             throw { statusCode: 500, message: "Erro ao registrar usuário." };
         }
@@ -43,6 +47,12 @@ export const authService = {
     async loginUser(credentials) {
         console.log("[AuthService] Attempting to login user:", credentials.email);
         const { email, password } = credentials;
+        const JWT_SECRET = process.env.JWT_SECRET; // Read JWT_SECRET here
+
+        if (!JWT_SECRET) {
+            console.error("[AuthService] JWT_SECRET is not defined. Check .env file and server configuration.");
+            throw { statusCode: 500, message: "Erro de configuração do servidor: Segredo JWT não definido." };
+        }
 
         try {
             const user = await User.findOne({ email }).select("+password");
@@ -63,10 +73,9 @@ export const authService = {
                 nome: user.nome
             };
 
-            const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" }); // Token expires in 1 hour
+            const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
             console.log("[AuthService] User logged in successfully:", user.email);
 
-            // Return user data without password and the token
             const userToReturn = { ...user._doc };
             delete userToReturn.password;
 
