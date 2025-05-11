@@ -1,0 +1,3 @@
+curl --request GET \
+  --url http://localhost:3000/secureExampleRoute \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjBhNzk3NmY0ODM4Y2ViMDJiMjAwNiIsImVtYWlsIjoic2V1ZW1haWxAZXhhbXBsZS5jb20iLCJub21lIjoiU2V1IE5vbWUiLCJpYXQiOjE3NDY5ODk4NzksImV4cCI6MTc0Njk5MzQ3OX0.oHrto1ZjzYmaeCdgrnT7zKVNptB4iYyULtC4wO19F5Y'
