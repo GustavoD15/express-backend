@@ -12,10 +12,14 @@ db.connect();
 
 const app = express();
 
-// ✅ Ativando o CORS — ajuste para aceitar seu frontend (ex: Vite em :5173)
+const allowedOrigins = [
+  'http://localhost:3001',                          // dev local
+  'https://react-frontend-oy6kklosx-gustavod15s-projects.vercel.app'               // produção (substitua pela sua URL real)
+];
+
 app.use(cors({
-    origin: 'http://localhost:3001', // ajuste para sua porta do frontend
-    credentials: true
+  origin: allowedOrigins,
+  credentials: true
 }));
 
 app.use(express.json());
